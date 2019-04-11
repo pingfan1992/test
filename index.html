@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>WelCome</title>
+<script src="js/jq.js"></script>
+<script src="js/bootstrap.min.js"></script>
+
+<link href="css/bootstrap.css" rel="stylesheet">
+<link href="css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="style/style.css">
+</head>
+
+<body>
+<div class="main">
+
+<div class="text-center">
+<div style="font-size:236px; margin-top:100px;" id="homelogin"><i class="fa fa-calendar"></i></div>
+
+<div><br />
+<button  class="btn btn-default dropdown-toggle"  id="loginbtn"  data-toggle="modal" data-target="#myModalreg"> Start</button></div>
+<div style="margin-top:100px;">
+<br />
+</div>
+</div>
+
+<!--注册登录-->
+
+<!-- Modal -->
+<div class="modal fade" id="myModalreg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Sign In</h4>
+      </div>
+      <div class="modal-body row">
+      	<div class="div-center sign" id="logindiv">
+          <div class="input-group col-xs-7">
+          <span class="input-group-addon"> User&nbsp;</span>
+          <input type="text" id="username" class="form-control" placeholder="帐号">
+          </div>
+            <div class="input-group col-xs-7 mt5">
+                <span class="input-group-addon">Pswd</span>
+                <input type="password" id="userpswd" class="form-control" placeholder="密码">
+            </div>
+            <div class="input-group col-xs-7 mt5">
+            <span class="input-group-addon">Code</span>
+            <input type="type" id="code" class="form-control" placeholder="验证码">
+        </div>
+            <div class="input-group col-xs-7 mt5">
+                <div class="yzm xs yzmspan"><img id="yzm" src="ver.php" /></div>
+            </div>
+
+
+
+            <div class="input-group col-xs-7 mt5">
+          <button type="button" id="login" onclick="reg(1)" class="btn btn-default">登录</button> &nbsp;
+
+         
+		 <div id="signecho"></div>
+          </div>
+     	</div>
+       
+        <div class="clearfix"></div>
+</div>
+      <div class="modal-footer">
+      	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+       
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+</div>
+
+</body>
+<script>
+$('.yzm').click(function(){
+    $('.yzm').html(' <img id="yzm" src="ver.php?t='+Math.random()+'" />')
+})
+$(function() {
+	$(document).mousemove(function(e) {
+		var top=$(document).height()/4;
+	
+	$('#homelogin').css({'margin-top':top+'px'});
+	})
+});
+function auto()
+{	
+	setTimeout('auto()',5000);
+	}
+auto()
+$('#logindiv').keydown(function(e){
+    if(e.keyCode==13){
+        reg(1)
+    }
+});
+function reg(a) {
+    $('#signecho').html('');
+    var username = $('#username').val();
+    var userpswd = $('#userpswd').val();
+    var code = $('#code').val();
+    if (username.length < 5 || username.length > 20) {
+        $('#username').focus();
+        $('#signecho').html('<pre class="mt5">请输入正确的用户名！最少5个字符</pre>');
+    }
+    else if (userpswd.length < 5 || userpswd.length > 30) {
+        $('#userpswd').focus();
+        $('#userpswd').html('<pre class="mt5">请输入正确的密码！最少6个字符</pre>');
+    }
+    else {
+        $.post('include/reg.php', {action: 'reg', sel: a, username: username, userpswd: userpswd, code: code}, function (data) {
+            setTimeout('' + data + '', 1);
+
+        }).error(function(a,b,c){
+                    
+                })
+    }
+}
+</script>
+
+</html>
